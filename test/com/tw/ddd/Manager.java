@@ -38,18 +38,18 @@ public class Manager {
         Car car1 = new Car("陕A.66666");
         ParkingLot foundParkingLot1 = findParkingLotService.findParkingLot(juniorBoy);
         Ticket ticket1 = parkCarService.parkCar(foundParkingLot1, car1);
-        System.out.println("ticket1=" + ticket1);
+        System.out.println("car1 = " + car1 + "停车成功，ticket1 = " + ticket1);
 
         Car car2 = new Car("陕A.88888");
         ParkingLot foundParkingLot2 = findParkingLotService.findParkingLot(seniorBoy);
         Ticket ticket2 = parkCarService.parkCar(foundParkingLot2, car2);
-        System.out.println("ticket2=" + ticket2);
+        System.out.println("car2 = " + car2 + "停车成功，ticket2 = " + ticket2);
 
         // 4. 取车
         Car myCar1 = juniorBoy.take(ticket1);
-        System.out.println("car1=" + myCar1);
+        System.out.println("ticket1 = " + ticket1 + "取车成功，car1=" + myCar1);
 
         Car myCar2 = seniorBoy.take(ticket2);
-        System.out.println("car2=" + myCar2);
+        System.out.println("ticket2 = " + ticket2 + "取车成功，car2=" + myCar2);
     }
 }
