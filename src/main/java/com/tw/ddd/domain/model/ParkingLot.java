@@ -1,7 +1,7 @@
-package com.tw.ddd.domain;
+package com.tw.ddd.domain.model;
 
-import com.tw.ddd.valueobject.Car;
-import com.tw.ddd.valueobject.Ticket;
+import com.tw.ddd.domain.valueobject.Car;
+import com.tw.ddd.domain.valueobject.Ticket;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,12 +9,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ParkingLot {
     private AtomicInteger capacity;
-    private Map<Ticket, Car> parkedCars = new HashMap<Ticket, Car>() ;
+    private Map<Ticket, Car> parkedCars = new HashMap<Ticket, Car>();
 
     public ParkingLot(AtomicInteger capacity) {
         this.capacity = capacity;
     }
 
+    public boolean hasSpace() {
+        return capacity.get() > 0;
+    }
 
     public Ticket park(Car car) {
         if (capacity.decrementAndGet() >= 0) {
@@ -30,8 +33,12 @@ public class ParkingLot {
             return parkedCars.get(parkedCars.keySet().stream()
                     .filter(ticketOne -> ticketOne.equals(ticket))
                     .findFirst()
-                    .get());
+                    .orElse(null));
         }
         return null;
+    }
+
+    public int getCapacity() {
+        return capacity.get();
     }
 }

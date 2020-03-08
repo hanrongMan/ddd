@@ -2,15 +2,12 @@
 
 
 Class ParkingBoy << Entity >> {
-  ParkingLot[] parkingLots
-
-  + Ticket park(Car car)
-  + Car take(Ticket ticket)
+  List<ParkingLot> parkingLots
+  FindParkingLotStrategy findParkingLotStrategy
 
   + void setParkingLots (ParkingLot[] parkingLots)
   + ParkingLot[] getParkingLots()
 }
-
 
 class ParkingLot << Entity >> {
   int capacity
@@ -20,7 +17,6 @@ class ParkingLot << Entity >> {
   + Car take(Ticket ticket)
 }
 
-
 Class Car << Value Object >> {
     PlateNumber plateNumber
 }
@@ -29,17 +25,31 @@ Class Ticket << Value Object >> {
   + Boolean validate()
 }
 
+class FindParkingLotService {
+ParkingLot findParkingLot(ParkingBoy parkingBoy)
+}
+
+class ParkCarService{
++ Ticket parkCar(ParkingLot parkingLot,Car car)
+}
+
+abstract class FindParkingLotStrategy {
+abstract ParkingLot find(ParkingLot[] parkingLots)
+}
+
+Class SortedFindParkingLot{
++ParkingLot find(ParkingLot[] parkingLots)
+}
+
+Class SpaceMaxFindParkingLot{
++ParkingLot find(ParkingLot[] parkingLots)
+}
+
+FindParkingLotStrategy  <|.. SortedFindParkingLot
+FindParkingLotStrategy  <|.. SpaceMaxFindParkingLot
+
 Ticket "1" *--> "1" Car
 ParkingLot "1" o--> "0..many" Ticket
 ParkingBoy "1" o--> "0..many" ParkingLot
-
-
-
-@enduml
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
-}
-
+ParkingBoy "1" o--> "1" FindParkingLotStrategy
 @enduml

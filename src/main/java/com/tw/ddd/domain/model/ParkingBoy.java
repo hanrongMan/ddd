@@ -1,25 +1,19 @@
-package com.tw.ddd.domain;
+package com.tw.ddd.domain.model;
 
-import com.tw.ddd.valueobject.Car;
-import com.tw.ddd.valueobject.Ticket;
+import com.tw.ddd.domain.strategy.FindParkingLotStrategy;
+import com.tw.ddd.domain.valueobject.Car;
+import com.tw.ddd.domain.valueobject.Ticket;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ParkingBoy {
     private List<ParkingLot> parkingLots;
+    private FindParkingLotStrategy findParkingLotStrategy;
 
-    public ParkingBoy(List<ParkingLot> parkingLots) {
+    public ParkingBoy(List<ParkingLot> parkingLots, FindParkingLotStrategy findParkingLotStrategy) {
         this.parkingLots = parkingLots;
-    }
-
-    public Ticket park(Car car) {
-        return parkingLots.stream()
-                .filter(parkingLot -> Optional.ofNullable(parkingLot.park(car))
-                        .isPresent())
-                .findFirst()
-                .get()
-                .park(car);
+        this.findParkingLotStrategy = findParkingLotStrategy;
     }
 
     public Car take(Ticket ticket) {
@@ -40,5 +34,13 @@ public class ParkingBoy {
 
     public List<ParkingLot> getParkingLots() {
         return parkingLots;
+    }
+
+    public FindParkingLotStrategy getFindParkingLotStrategy() {
+        return findParkingLotStrategy;
+    }
+
+    public void setFindParkingLotStrategy(FindParkingLotStrategy findParkingLotStrategy) {
+        this.findParkingLotStrategy = findParkingLotStrategy;
     }
 }

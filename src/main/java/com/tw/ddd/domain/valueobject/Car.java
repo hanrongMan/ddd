@@ -1,4 +1,4 @@
-package com.tw.ddd.valueobject;
+package com.tw.ddd.domain.valueobject;
 
 public class Car {
     String plateNumber;
