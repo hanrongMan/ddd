@@ -1,7 +1,13 @@
 @startuml
 
 
-Class ParkingBoy << Entity >> {
+Class ParkingManager <<Entity>> {
+List<ParkingBoy> parkingBoys
+
++ ParkingBoy findParkingBoy(List<ParkingBoy> parkingBoys)
+}
+
+Class ParkingBoy << Entity >> <<Aggregate Root>> {
   List<ParkingLot> parkingLots
   FindParkingLotStrategy findParkingLotStrategy
 
@@ -9,7 +15,7 @@ Class ParkingBoy << Entity >> {
   + ParkingLot[] getParkingLots()
 }
 
-class ParkingLot << Entity >> {
+class ParkingLot << Entity >> <<Aggregate Root>> {
   int capacity
   Map <Ticket, Car> parkedCars
 
@@ -25,15 +31,15 @@ Class Ticket << Value Object >> {
   + Boolean validate()
 }
 
-class FindParkingLotService {
+class FindParkingLotService <<Service>> {
 ParkingLot findParkingLot(ParkingBoy parkingBoy)
 }
 
-class ParkCarService{
+class ParkCarService <<Service>> {
 + Ticket parkCar(ParkingLot parkingLot,Car car)
 }
 
-abstract class FindParkingLotStrategy {
+abstract class FindParkingLotStrategy <<Strategy>> {
 abstract ParkingLot find(ParkingLot[] parkingLots)
 }
 
@@ -47,9 +53,11 @@ Class SpaceMaxFindParkingLot{
 
 FindParkingLotStrategy  <|.. SortedFindParkingLot
 FindParkingLotStrategy  <|.. SpaceMaxFindParkingLot
-
+ParkingManager "1" o--> "0..many" ParkingBoy
 Ticket "1" *--> "1" Car
 ParkingLot "1" o--> "0..many" Ticket
 ParkingBoy "1" o--> "0..many" ParkingLot
 ParkingBoy "1" o--> "1" FindParkingLotStrategy
+FindParkingLotService ..> ParkingBoy
+ParkCarService ..> ParkingLot
 @enduml
