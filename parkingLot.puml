@@ -60,4 +60,6 @@ ParkingBoy "1" o--> "0..many" ParkingLot
 ParkingBoy "1" o--> "1" FindParkingLotStrategy
 FindParkingLotService ..> ParkingBoy
 ParkCarService ..> ParkingLot
+ParkCarService ..> Car
+
 @enduml
