@@ -1,5 +1,6 @@
-package com.tw.ddd.domain.model;
+package com.tw.ddd.domain.valueobject;
 
+import com.tw.ddd.domain.model.ParkingLot;
 import com.tw.ddd.domain.strategy.FindParkingLotStrategy;
 import com.tw.ddd.domain.valueobject.Car;
 import com.tw.ddd.domain.valueobject.Ticket;

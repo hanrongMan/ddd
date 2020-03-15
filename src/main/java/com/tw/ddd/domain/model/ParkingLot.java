@@ -5,9 +5,11 @@ import com.tw.ddd.domain.valueobject.Ticket;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ParkingLot {
+    UUID id;
     private AtomicInteger capacity;
     private Map<Ticket, Car> parkedCars = new HashMap<Ticket, Car>();
 

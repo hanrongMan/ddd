@@ -1,21 +1,23 @@
 @startuml
 
+Class ParkingManager <<Entity>> <<Aggregate Root>>  {
+  List<UUID> parkingBoys
 
-Class ParkingManager <<Entity>> {
-List<ParkingBoy> parkingBoys
-
-+ ParkingBoy findParkingBoy(List<ParkingBoy> parkingBoys)
++ ParkingBoy findParkingBoy(List<UUID> parkingBoys)
 }
 
-Class ParkingBoy << Entity >> <<Aggregate Root>> {
-  List<ParkingLot> parkingLots
-  FindParkingLotStrategy findParkingLotStrategy
-
+Class ParkingBoy <<Value Object>> {
   + void setParkingLots (ParkingLot[] parkingLots)
   + ParkingLot[] getParkingLots()
 }
 
+Class ParkingBoyConfig  << Entity >> <<Aggregate Root>>{
+  List<UUID> parkingLots
+  FindParkingLotStrategy findParkingLotStrategy
+}
+
 class ParkingLot << Entity >> <<Aggregate Root>> {
+  UUID id
   int capacity
   Map <Ticket, Car> parkedCars
 
@@ -39,7 +41,7 @@ class ParkCarService <<Service>> {
 + Ticket parkCar(ParkingLot parkingLot,Car car)
 }
 
-abstract class FindParkingLotStrategy <<Strategy>> {
+abstract class FindParkingLotStrategy <<Strategy>> <<Value Object>>{
 abstract ParkingLot find(ParkingLot[] parkingLots)
 }
 
@@ -51,15 +53,23 @@ Class SpaceMaxFindParkingLot{
 +ParkingLot find(ParkingLot[] parkingLots)
 }
 
+Class ParkingBoyFactory {
++static ParkingBoy(ParkingBoyConfig parkingBoyConfig)
+}
+
 FindParkingLotStrategy  <|.. SortedFindParkingLot
 FindParkingLotStrategy  <|.. SpaceMaxFindParkingLot
 ParkingManager "1" o--> "0..many" ParkingBoy
 Ticket "1" *--> "1" Car
 ParkingLot "1" o--> "0..many" Ticket
 ParkingBoy "1" o--> "0..many" ParkingLot
-ParkingBoy "1" o--> "1" FindParkingLotStrategy
+ParkingBoyConfig "1" o--> "1" FindParkingLotStrategy
 FindParkingLotService ..> ParkingBoy
 ParkCarService ..> ParkingLot
 ParkCarService ..> Car
+ParkingBoyConfig ..> ParkingBoy
+
+ParkingBoyFactory ..>ParkingBoy
+ParkingBoyFactory ..>ParkingBoyConfig
 
 @enduml

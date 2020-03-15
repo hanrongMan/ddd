@@ -1,6 +1,6 @@
 package com.tw.ddd;
 
-import com.tw.ddd.domain.model.ParkingBoy;
+import com.tw.ddd.domain.valueobject.ParkingBoy;
 import com.tw.ddd.domain.model.ParkingLot;
 import com.tw.ddd.domain.model.ParkingManager;
 import com.tw.ddd.domain.service.FindParkingLotService;
