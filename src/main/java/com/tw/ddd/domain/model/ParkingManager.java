@@ -1,25 +1,40 @@
 package com.tw.ddd.domain.model;
 
-import com.tw.ddd.domain.valueobject.ParkingBoy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class ParkingManager {
-    UUID id;
-    List<ParkingBoy> parkingBoys = new ArrayList<>();
+    UUID id = UUID.randomUUID();
+    String name;
+    List<UUID> parkingBoys = new ArrayList<>();
 
-    public ParkingBoy findParkingBoy() {
+    public UUID findParkingBoy() {
         return parkingBoys.stream().findAny().get();
     }
 
-    public void recruitParkingBoy(ParkingBoy parkingBoy) {
-        Optional.ofNullable(parkingBoy).map(parkingBoys::add);
+    public List<UUID> getParkingBoys() {
+        return parkingBoys;
     }
 
-    public List<ParkingBoy> getParkingBoys() {
-        return parkingBoys;
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setParkingBoys(List<UUID> parkingBoys) {
+        this.parkingBoys = parkingBoys;
     }
 }

@@ -5,6 +5,20 @@ import com.tw.ddd.domain.valueobject.Car;
 import com.tw.ddd.domain.valueobject.Ticket;
 
 public interface ParkingManagerService {
-    Ticket parkingCar(Car car);
-    ParkingLot getAvailableParkingLot();
+    /**
+     * 停车经理停车
+     *
+     * @param managerId
+     * @param car
+     * @return
+     */
+    Ticket parkingCar(String managerId, Car car);
+
+    /**
+     * 询问停车经理可用停车场
+     *
+     * @param managerId
+     * @return
+     */
+    ParkingLot getAvailableParkingLot(String managerId);
 }

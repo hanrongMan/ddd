@@ -6,7 +6,7 @@ import com.tw.ddd.domain.strategy.FindParkingLotStrategy;
 
 public class FindParkingLotService {
     public ParkingLot findParkingLot(ParkingBoy parkingBoy) {
-        FindParkingLotStrategy findParkingLotStrategy = parkingBoy.getFindParkingLotStrategy();
+        FindParkingLotStrategy findParkingLotStrategy = parkingBoy. getFindParkingLotStrategy();
         return findParkingLotStrategy.find(parkingBoy.getParkingLots());
     }
 }
