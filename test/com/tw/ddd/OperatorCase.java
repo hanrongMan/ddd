@@ -2,7 +2,6 @@ package com.tw.ddd;
 
 import com.tw.ddd.application.PlatformService;
 import com.tw.ddd.application.impl.PlatformServiceImpl;
-import com.tw.ddd.domain.model.ParkingManager;
 import org.junit.Before;
 import org.junit.Test;
 
