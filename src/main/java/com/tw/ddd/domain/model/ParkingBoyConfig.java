@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class ParkingBoyConfig {
     UUID id;
+    String name;
     private List<ParkingLot> parkingLots;
     private String findParkingLotStrategyClassName;
 
@@ -16,6 +17,14 @@ public class ParkingBoyConfig {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<ParkingLot> getParkingLots() {
