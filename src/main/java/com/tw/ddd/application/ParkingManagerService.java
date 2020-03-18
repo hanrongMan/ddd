@@ -12,7 +12,7 @@ public interface ParkingManagerService {
      * @param car
      * @return
      */
-    Ticket parkingCar(String managerId, Car car);
+    Ticket parkingCar(String managerId, Car car) throws IllegalAccessException, InstantiationException, ClassNotFoundException;
 
     /**
      * 询问停车经理可用停车场

@@ -1,5 +1,22 @@
 @startuml
 
+interface ParkingBoyService{
+ Ticket parkingCar(String parkingBoyId, Car car);
+}
+
+interface ParkingManagerService{
+ + Ticket parkingCar(String managerId, Car car)
+ + ParkingLot getAvailableParkingLot(String managerId);
+}
+class ParkingManagerServiceImpl <<Application>>{
+ + Ticket parkingCar(String managerId, Car car)
+ +  ParkingLot getAvailableParkingLot(String managerId);
+}
+
+class ParkingBoyServiceImpl <<Application>> {
+ Ticket parkingCar(String parkingBoyId, Car car);
+}
+
 Class ParkingManager <<Entity>> <<Aggregate Root>>  {
   List<UUID> parkingBoys
 
@@ -37,10 +54,6 @@ class FindParkingLotService <<Service>> {
 ParkingLot findParkingLot(ParkingBoy parkingBoy)
 }
 
-class ParkCarService <<Service>> {
-+ Ticket parkCar(ParkingLot parkingLot,Car car)
-}
-
 abstract class FindParkingLotStrategy <<Strategy>> <<Value Object>>{
 abstract ParkingLot find(ParkingLot[] parkingLots)
 }
@@ -65,11 +78,25 @@ ParkingLot "1" o--> "0..many" Ticket
 ParkingBoy "1" o--> "0..many" ParkingLot
 ParkingBoyConfig "1" o--> "1" FindParkingLotStrategy
 FindParkingLotService ..> ParkingBoy
-ParkCarService ..> ParkingLot
-ParkCarService ..> Car
 ParkingBoyConfig ..> ParkingBoy
 
 ParkingBoyFactory ..>ParkingBoy
 ParkingBoyFactory ..>ParkingBoyConfig
+
+ParkingBoyServiceImpl ..> ParkingBoyConfigRepository
+ParkingBoyServiceImpl ..> FindParkingLotService
+ParkingBoyServiceImpl ..> ParkingBoyFactory
+
+ParkingManagerServiceImpl ..> ParkingBoyConfigRepository
+ParkingManagerServiceImpl ..> FindParkingLotService
+ParkingManagerServiceImpl ..>  ParkingManagerRepository
+ParkingManagerServiceImpl ..> ParkingBoyFactory
+
+ParkingBoyConfigRepository ..>ParkingBoyConfig
+ParkingManagerRepository ..>ParkingManager
+
+ParkingManagerServiceImpl ..>ParkingManagerService
+ParkingBoyServiceImpl ..>ParkingBoyService
+
 
 @enduml

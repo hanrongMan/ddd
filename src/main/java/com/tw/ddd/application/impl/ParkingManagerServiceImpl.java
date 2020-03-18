@@ -27,11 +27,20 @@ public class ParkingManagerServiceImpl implements ParkingManagerService {
     }
 
     @Override
-    public Ticket parkingCar(String managerId, Car car) {
+    public Ticket parkingCar(String managerId, Car car)  {
         ParkingManager parkingManager = parkingManagerRepository.findById(UUID.fromString(managerId));
         UUID parkingBoyId = parkingManager.findParkingBoy();
         ParkingBoyConfig parkingBoyConfig = parkingBoyConfigRepository.findById(parkingBoyId);
-        ParkingBoy parkingBoy = ParkingBoyFactory.toParkingBoy(parkingBoyConfig);
+        ParkingBoy parkingBoy = null;
+        try {
+            parkingBoy = ParkingBoyFactory.toParkingBoy(parkingBoyConfig);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
         ParkingLot parkingLot = findParkingLotService.findParkingLot(parkingBoy);
         Ticket ticket = parkingLot.park(car);
         return ticket;
@@ -44,14 +53,23 @@ public class ParkingManagerServiceImpl implements ParkingManagerService {
         AtomicReference<ParkingLot> availableParkingLot = null;
         parkingBoys.stream()
                 .anyMatch(uuid -> {
-                    return ParkingBoyFactory.toParkingBoy(parkingBoyConfigRepository.findById(uuid))
-                            .getParkingLots().stream().anyMatch(parkingLot -> {
-                                if (parkingLot.hasSpace()) {
-                                    availableParkingLot.set(parkingLot);
-                                    return true;
-                                }
-                                return false;
-                            });
+                    try {
+                        return ParkingBoyFactory.toParkingBoy(parkingBoyConfigRepository.findById(uuid))
+                                .getParkingLots().stream().anyMatch(parkingLot -> {
+                                    if (parkingLot.hasSpace()) {
+                                        availableParkingLot.set(parkingLot);
+                                        return true;
+                                    }
+                                    return false;
+                                });
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
                 });
         return availableParkingLot.get();
     }
