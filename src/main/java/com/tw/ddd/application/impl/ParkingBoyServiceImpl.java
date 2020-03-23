@@ -26,7 +26,16 @@ public class ParkingBoyServiceImpl implements ParkingBoyService {
     @Override
     public Ticket parkingCar(String parkingBoyId, Car car) {
         ParkingBoyConfig parkingBoyConfig = parkingBoyConfigRepository.findById(UUID.fromString(parkingBoyId));
-        ParkingBoy parkingBoy = ParkingBoyFactory.toParkingBoy(parkingBoyConfig);
+        ParkingBoy parkingBoy = null;
+        try {
+            parkingBoy = ParkingBoyFactory.toParkingBoy(parkingBoyConfig);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
         ParkingLot parkingLot = findParkingLotService.findParkingLot(parkingBoy);
         return parkingLot.park(car);
     }

@@ -1,4 +1,14 @@
 @startuml
+package parkingContext {
+class ParkingBoy
+class ParkingLot
+class ParkingManager
+}
+
+package configContext{
+class ParkingBoyConfig
+
+}
 
 interface ParkingBoyService{
  Ticket parkingCar(String parkingBoyId, Car car);
@@ -30,8 +40,9 @@ Class ParkingBoy <<Value Object>> {
 
 Class ParkingBoyConfig  << Entity >> <<Aggregate Root>>{
   List<UUID> parkingLots
-  FindParkingLotStrategy findParkingLotStrategy
+  String findParkingLotStrategyName
 }
+
 
 class ParkingLot << Entity >> <<Aggregate Root>> {
   UUID id
@@ -76,7 +87,7 @@ ParkingManager "1" o--> "0..many" ParkingBoy
 Ticket "1" *--> "1" Car
 ParkingLot "1" o--> "0..many" Ticket
 ParkingBoy "1" o--> "0..many" ParkingLot
-ParkingBoyConfig "1" o--> "1" FindParkingLotStrategy
+ParkingBoy "1" o--> "1" FindParkingLotStrategy
 FindParkingLotService ..> ParkingBoy
 ParkingBoyConfig ..> ParkingBoy
 
