@@ -1,13 +1,24 @@
 @startuml
-package parkingContext {
-class ParkingBoy
+package parking {
+interface FindParkingLotService
+interface ParkingLotFinderSpecification
+interface ParkingLotFinderFactory
+interface ParkingLotFinder
 class ParkingLot
-class ParkingManager
+class Ticket
 }
 
-package configContext{
-class ParkingBoyConfig
+package finder{
+class ParkingManagerSpecification
+class ParkingBoySpecification
+class ParkingManager
+class ParkingBoy
+class FindParkingLotStrategy
+}
 
+package policy{
+class SortedFindParkingLot
+class SpaceMaxFindParkingLot
 }
 
 interface ParkingBoyService{
@@ -80,6 +91,7 @@ Class SpaceMaxFindParkingLot{
 Class ParkingBoyFactory {
 +static ParkingBoy(ParkingBoyConfig parkingBoyConfig)
 }
+
 
 FindParkingLotStrategy  <|.. SortedFindParkingLot
 FindParkingLotStrategy  <|.. SpaceMaxFindParkingLot
